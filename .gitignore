@@ -1,3 +1,4 @@
 test.log
 # Normally I should ignore ./Report folder but there was a requirements, so I left it
 .idea
+__pycache__
