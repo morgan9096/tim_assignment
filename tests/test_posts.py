@@ -1,7 +1,7 @@
 import allure
 import pytest
-import requests
 
+from utils.request import collect_get_response, collect_post_response
 
 _POST_IDS_RANGE = range(1, 100+1)
 _CREATE_POST_RESPONSE_CODE = 201
@@ -19,7 +19,7 @@ def test_post_ids(posts_url: str, user_id: int):
     (an integer between 1 and 100).
     """
     with allure.step(f'Getting posts data from {posts_url}'):
-        response = requests.get(posts_url)
+        response = collect_get_response(posts_url)
         assert response.ok
         all_posts = response.json()
         assert all_posts
@@ -45,7 +45,7 @@ def test_make_post(posts_url: str, user_id: int):
     post_body = 'bar'
     payload = {'title': post_title, 'body': post_body, 'userId': user_id}
     with allure.step(f'User_id={user_id}.Send request to create a post'):
-        response = requests.post(posts_url, data=payload)
+        response = collect_post_response(posts_url, data=payload)
         assert response.status_code == _CREATE_POST_RESPONSE_CODE
         post = response.json()
         assert post
